@@ -16,10 +16,10 @@
       --muted: #888;
       --accent: #ff3b30;
       --accent-hover: #ff6b63;
+      --success: #34c759;
+      --success-hover: #5dd879;
     }
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       min-height: 100vh;
@@ -37,27 +37,12 @@
       border-radius: 12px;
       padding: 2rem;
       width: 100%;
-      max-width: 420px;
+      max-width: 520px;
     }
-    h1 {
-      font-size: 1.35rem;
-      font-weight: 600;
-      margin: 0 0 0.25rem 0;
-    }
-    .sub {
-      color: var(--muted);
-      font-size: 0.9rem;
-      margin-bottom: 1.5rem;
-    }
-    label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 500;
-      margin-bottom: 0.35rem;
-      color: var(--muted);
-    }
-    input[type="url"],
-    input[type="text"] {
+    h1 { font-size: 1.35rem; font-weight: 600; margin: 0 0 0.25rem 0; }
+    .sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.25rem; }
+    label { display: block; font-size: 0.85rem; font-weight: 500; margin-bottom: 0.35rem; color: var(--muted); }
+    input[type="url"], input[type="text"] {
       width: 100%;
       padding: 0.65rem 0.75rem;
       font: inherit;
@@ -66,25 +51,57 @@
       border: 1px solid var(--border);
       border-radius: 8px;
       color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+    input::placeholder { color: var(--muted); }
+    input:focus { outline: none; border-color: var(--accent); }
+    .slot {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+    .slot-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+    .slot-title { font-size: 0.85rem; font-weight: 500; color: var(--muted); }
+    .slot-remove {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 0.25rem;
+      font-size: 1.1rem;
+      line-height: 1;
+      border-radius: 4px;
+      width: 28px;
+      height: 28px;
+    }
+    .slot-remove:hover { color: var(--text); background: var(--border); }
+    .slot .row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0; }
+    .slot .row label { margin-bottom: 0.25rem; }
+    .add-slot {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.5rem 0.75rem;
+      font: inherit;
+      font-size: 0.9rem;
+      color: var(--muted);
+      background: transparent;
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      cursor: pointer;
       margin-bottom: 1rem;
     }
-    input::placeholder {
-      color: var(--muted);
-    }
-    input:focus {
-      outline: none;
-      border-color: var(--accent);
-    }
-    .row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.75rem;
-      margin-bottom: 1.25rem;
-    }
-    .row label {
-      margin-bottom: 0.35rem;
-    }
-    button {
+    .add-slot:hover { color: var(--text); border-color: var(--muted); }
+    .add-slot::before { content: '+'; font-size: 1.2rem; font-weight: 600; }
+    .btn-download-all {
       width: 100%;
       padding: 0.75rem 1rem;
       font: inherit;
@@ -97,14 +114,51 @@
       cursor: pointer;
       transition: background 0.15s;
     }
-    button:hover {
-      background: var(--accent-hover);
+    .btn-download-all:hover { background: var(--accent-hover); }
+    .btn-download-all:disabled { opacity: 0.6; cursor: not-allowed; }
+    .progress-list { margin-top: 1.25rem; }
+    .progress-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.75rem;
     }
-    button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
+    .progress-card-head { font-size: 0.85rem; font-weight: 500; margin-bottom: 0.5rem; color: var(--muted); }
+    .progress-bar-wrap {
+      height: 6px;
+      background: var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 0.4rem;
     }
-    .error {
+    .progress-bar {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 3px;
+      width: 0%;
+      transition: width 0.2s ease;
+    }
+    .progress-meta { font-size: 0.8rem; color: var(--muted); }
+    .progress-card.ready .progress-bar-wrap { display: none; }
+    .progress-card.ready .progress-meta { display: none; }
+    .btn-save {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #fff;
+      background: var(--success);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 0.25rem;
+    }
+    .btn-save:hover { background: var(--success-hover); }
+    .progress-card.error .progress-meta { color: #ff6b63; }
+    .global-error {
       margin-top: 1rem;
       padding: 0.6rem 0.75rem;
       background: rgba(255, 59, 48, 0.15);
@@ -114,85 +168,34 @@
       color: #ff6b63;
       display: none;
     }
-    .error.visible {
-      display: block;
-    }
-    .hint {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-top: 0.25rem;
-    }
-    .progress-section {
-      margin-top: 1rem;
-      display: none;
-    }
-    .progress-section.visible {
-      display: block;
-    }
-    .progress-bar-wrap {
-      height: 8px;
-      background: var(--border);
-      border-radius: 4px;
-      overflow: hidden;
-      margin-bottom: 0.5rem;
-    }
-    .progress-bar {
-      height: 100%;
-      background: var(--accent);
-      border-radius: 4px;
-      width: 0%;
-      transition: width 0.2s ease;
-    }
-    .progress-meta {
-      font-size: 0.85rem;
-      color: var(--muted);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem 1rem;
-    }
+    .global-error.visible { display: block; }
+    .hint { font-size: 0.8rem; color: var(--muted); margin-top: 0.25rem; }
   </style>
 </head>
 <body>
   <div class="card">
     <h1>YouTube → MP4</h1>
-    <p class="sub">Download a video or a clip by choosing start and end times.</p>
-    <form id="form">
-      <label for="url">Video URL</label>
-      <input type="url" id="url" name="url" placeholder="https://www.youtube.com/watch?v=..." required>
-      <div class="row">
-        <div>
-          <label for="start">Start time</label>
-          <input type="text" id="start" name="start" placeholder="0 or 1:30">
-        </div>
-        <div>
-          <label for="end">End time</label>
-          <input type="text" id="end" name="end" placeholder="5:00 or empty">
-        </div>
-      </div>
-      <p class="hint">Use 0 or leave start at 0 for beginning. Leave end empty for full video.</p>
-      <button type="submit" id="btn">Download MP4</button>
-    </form>
-    <div class="progress-section" id="progressSection">
-      <div class="progress-bar-wrap">
-        <div class="progress-bar" id="progressBar"></div>
-      </div>
-      <div class="progress-meta" id="progressMeta"></div>
-    </div>
-    <div class="error" id="error" role="alert"></div>
+    <p class="sub">Add one or more videos; set start/end to download clips. One download starts all.</p>
+    <div id="slotsContainer"></div>
+    <button type="button" class="add-slot" id="addSlot" aria-label="Add another video">Add video</button>
+    <button type="button" class="btn-download-all" id="btnDownloadAll">Download all</button>
+    <div class="progress-list" id="progressList"></div>
+    <div class="global-error" id="globalError" role="alert"></div>
   </div>
   <script>
-    const form = document.getElementById('form');
-    const btn = document.getElementById('btn');
-    const errEl = document.getElementById('error');
-    const progressSection = document.getElementById('progressSection');
-    const progressBar = document.getElementById('progressBar');
-    const progressMeta = document.getElementById('progressMeta');
+    const slotsContainer = document.getElementById('slotsContainer');
+    const addSlotBtn = document.getElementById('addSlot');
+    const btnDownloadAll = document.getElementById('btnDownloadAll');
+    const progressList = document.getElementById('progressList');
+    const globalError = document.getElementById('globalError');
+
+    let slots = [{ url: '', start: '', end: '' }];
+    let progress = [];
 
     function formatSpeed(bytesPerSec) {
       if (bytesPerSec == null) return '';
       const mb = bytesPerSec / (1024 * 1024);
-      if (mb >= 1) return mb.toFixed(2) + ' MB/s';
-      return (bytesPerSec / 1024).toFixed(1) + ' KB/s';
+      return mb >= 1 ? mb.toFixed(2) + ' MB/s' : (bytesPerSec / 1024).toFixed(1) + ' KB/s';
     }
     function formatEta(sec) {
       if (sec == null || sec < 0) return '';
@@ -201,23 +204,138 @@
       return m ? m + 'm ' + s + 's' : s + 's';
     }
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      errEl.classList.remove('visible');
-      errEl.textContent = '';
-      progressSection.classList.remove('visible');
-      progressBar.style.width = '0%';
-      progressMeta.textContent = '';
-      btn.disabled = true;
+    function ensureProgressLength() {
+      while (progress.length < slots.length) progress.push({
+        status: 'idle',
+        progressPct: 0,
+        phase: '',
+        eta_sec: null,
+        speed: null,
+        jobId: null,
+        error: null,
+        blobUrl: null
+      });
+      progress = progress.slice(0, slots.length);
+    }
 
-      const fd = new FormData(form);
+    function renderSlots() {
+      slotsContainer.innerHTML = slots.map((s, i) => `
+        <div class="slot" data-index="${i}">
+          <div class="slot-head">
+            <span class="slot-title">Video ${i + 1}</span>
+            ${slots.length > 1 ? `<button type="button" class="slot-remove" data-index="${i}" aria-label="Remove">−</button>` : ''}
+          </div>
+          <label for="url-${i}">URL</label>
+          <input type="url" id="url-${i}" data-index="${i}" data-field="url" placeholder="https://www.youtube.com/watch?v=..." value="${escapeAttr(s.url)}">
+          <div class="row">
+            <div>
+              <label for="start-${i}">Start</label>
+              <input type="text" id="start-${i}" data-index="${i}" data-field="start" placeholder="0 or 1:30" value="${escapeAttr(s.start)}">
+            </div>
+            <div>
+              <label for="end-${i}">End</label>
+              <input type="text" id="end-${i}" data-index="${i}" data-field="end" placeholder="5:00 or empty" value="${escapeAttr(s.end)}">
+            </div>
+          </div>
+        </div>
+      `).join('');
+      slotsContainer.querySelectorAll('input').forEach(inp => {
+        inp.addEventListener('input', () => {
+          const i = parseInt(inp.dataset.index, 10);
+          const field = inp.dataset.field;
+          if (slots[i]) slots[i][field] = inp.value;
+        });
+      });
+      slotsContainer.querySelectorAll('.slot-remove').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const i = parseInt(btn.dataset.index, 10);
+          slots.splice(i, 1);
+          progress.splice(i, 1);
+          renderSlots();
+          renderProgress();
+        });
+      });
+    }
+    function escapeAttr(s) {
+      if (s == null) return '';
+      const div = document.createElement('div');
+      div.textContent = s;
+      return div.innerHTML;
+    }
+
+    function renderProgress() {
+      ensureProgressLength();
+      progressList.innerHTML = progress.map((p, i) => {
+        const label = `Video ${i + 1}`;
+        const classes = ['progress-card', p.status];
+        if (p.status === 'error') classes.push('error');
+        if (p.status === 'ready') classes.push('ready');
+        const pct = p.progressPct != null ? Math.min(100, Math.max(0, p.progressPct)) : 0;
+        let meta = '';
+        if (p.status === 'downloading') {
+          const parts = [];
+          if (p.phase) parts.push(p.phase === 'converting' ? 'Converting…' : 'Downloading…');
+          if (p.progressPct != null) parts.push(p.progressPct.toFixed(1) + '%');
+          if (p.eta_sec != null) parts.push('ETA ' + formatEta(p.eta_sec));
+          if (p.speed != null) parts.push(formatSpeed(p.speed));
+          meta = parts.join(' · ');
+        } else if (p.status === 'error') meta = p.error || 'Failed';
+        else if (p.status === 'ready') meta = '';
+        else if (p.status === 'idle') meta = '—';
+        const saveBtn = p.status === 'ready' && p.blobUrl
+          ? `<button type="button" class="btn-save" data-index="${i}">Download</button>`
+          : '';
+        return `
+          <div class="${classes.join(' ')}" data-index="${i}">
+            <div class="progress-card-head">${label}</div>
+            <div class="progress-bar-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
+            <div class="progress-meta">${escapeAttr(meta)}</div>
+            ${saveBtn}
+          </div>
+        `;
+      }).join('');
+      progressList.querySelectorAll('.btn-save').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const i = parseInt(btn.dataset.index, 10);
+          const p = progress[i];
+          if (!p || !p.blobUrl) return;
+          const a = document.createElement('a');
+          a.href = p.blobUrl;
+          a.download = `clip-${i + 1}.mp4`;
+          a.click();
+          setTimeout(() => URL.revokeObjectURL(p.blobUrl), 1000);
+        });
+      });
+      progressList.style.display = progress.some(p => p.status !== 'idle') ? '' : 'none';
+    }
+
+    async function startDownload(slotIndex) {
+      const slot = slots[slotIndex];
+      if (!slot || !slot.url || !slot.url.trim()) return;
+      progress[slotIndex] = {
+        status: 'downloading',
+        progressPct: 0,
+        phase: 'starting',
+        eta_sec: null,
+        speed: null,
+        jobId: null,
+        error: null,
+        blobUrl: null
+      };
+      ensureProgressLength();
+      renderProgress();
+
+      const fd = new FormData();
+      fd.set('url', slot.url.trim());
+      fd.set('start', (slot.start || '0').trim());
+      fd.set('end', (slot.end || '').trim());
+
       try {
         const res = await fetch('/download', { method: 'POST', body: fd });
         if (!res.ok) {
           const data = await res.json().catch(() => ({}));
           throw new Error(data.error || 'Download failed');
         }
-        progressSection.classList.add('visible');
         const reader = res.body.getReader();
         const decoder = new TextDecoder();
         let buf = '';
@@ -233,26 +351,20 @@
             try {
               const data = JSON.parse(line.slice(6));
               if (data.status === 'progress') {
-                const pct = data.progress_pct;
-                progressBar.style.width = (pct != null ? Math.min(100, Math.max(0, pct)) : 0) + '%';
-                const parts = [];
-                if (data.phase) parts.push(data.phase === 'converting' ? 'Converting…' : 'Downloading…');
-                if (pct != null) parts.push(pct.toFixed(1) + '%');
-                if (data.eta_sec != null) parts.push('ETA ' + formatEta(data.eta_sec));
-                if (data.speed != null) parts.push(formatSpeed(data.speed));
-                progressMeta.textContent = parts.join(' · ');
+                progress[slotIndex].progressPct = data.progress_pct;
+                progress[slotIndex].phase = data.phase || 'downloading';
+                progress[slotIndex].eta_sec = data.eta_sec;
+                progress[slotIndex].speed = data.speed;
+                renderProgress();
               } else if (data.status === 'complete') {
-                progressBar.style.width = '100%';
-                progressMeta.textContent = 'Complete. Fetching file…';
                 const r = await fetch('/download/result/' + data.job_id);
                 if (!r.ok) throw new Error('Could not get file');
                 const blob = await r.blob();
-                const a = document.createElement('a');
-                a.href = URL.createObjectURL(blob);
-                a.download = 'clip.mp4';
-                a.click();
-                URL.revokeObjectURL(a.href);
-                progressMeta.textContent = 'Downloaded.';
+                progress[slotIndex].status = 'ready';
+                progress[slotIndex].progressPct = 100;
+                progress[slotIndex].blobUrl = URL.createObjectURL(blob);
+                progress[slotIndex].phase = '';
+                renderProgress();
                 finished = true;
                 break;
               } else if (data.status === 'error') {
@@ -273,12 +385,35 @@
           }
         }
       } catch (err) {
-        errEl.textContent = err.message || 'Something went wrong';
-        errEl.classList.add('visible');
-      } finally {
-        btn.disabled = false;
+        progress[slotIndex].status = 'error';
+        progress[slotIndex].error = err.message || 'Failed';
+        renderProgress();
       }
+    }
+
+    addSlotBtn.addEventListener('click', () => {
+      slots.push({ url: '', start: '', end: '' });
+      ensureProgressLength();
+      renderSlots();
     });
+
+    btnDownloadAll.addEventListener('click', async () => {
+      globalError.classList.remove('visible');
+      globalError.textContent = '';
+      const withUrl = slots.map((s, i) => ({ slot: s, i })).filter(({ slot }) => slot.url && slot.url.trim());
+      if (withUrl.length === 0) {
+        globalError.textContent = 'Add at least one video URL.';
+        globalError.classList.add('visible');
+        return;
+      }
+      btnDownloadAll.disabled = true;
+      await Promise.all(withUrl.map(({ i }) => startDownload(i)));
+      btnDownloadAll.disabled = false;
+    });
+
+    renderSlots();
+    ensureProgressLength();
+    renderProgress();
   </script>
 </body>
 </html>
