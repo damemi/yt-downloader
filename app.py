@@ -221,6 +221,7 @@ def _ffmpeg_convert_with_progress(
 def _run_download(job_id: str, url: str, start_sec: float, end_sec: float | None, use_range: bool, end_for_download: float):
     raw_path = DOWNLOAD_DIR / "raw" / job_id
     raw_path.mkdir(parents=True, exist_ok=True)
+    print(f"[yt-downloader] temp dir for this video: {raw_path.resolve()}")
     video_path = raw_path / "video"
     final_path = raw_path / "clip.mp4"
 
