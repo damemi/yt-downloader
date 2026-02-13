@@ -189,7 +189,7 @@
     const progressList = document.getElementById('progressList');
     const globalError = document.getElementById('globalError');
 
-    let slots = [{ url: '', start: '', end: '' }];
+    let slots = [{ url: '', start: '', end: '', title: '' }];
     let progress = [];
 
     function formatSpeed(bytesPerSec) {
@@ -227,6 +227,8 @@
           </div>
           <label for="url-${i}">URL</label>
           <input type="url" id="url-${i}" data-index="${i}" data-field="url" placeholder="https://www.youtube.com/watch?v=..." value="${escapeAttr(s.url)}">
+          <label for="title-${i}">Title (optional)</label>
+          <input type="text" id="title-${i}" data-index="${i}" data-field="title" placeholder="Save as filename" value="${escapeAttr(s.title)}">
           <div class="row">
             <div>
               <label for="start-${i}">Start</label>
@@ -261,6 +263,16 @@
       const div = document.createElement('div');
       div.textContent = s;
       return div.innerHTML;
+    }
+    function sanitizeFilename(s) {
+      if (s == null || typeof s !== 'string') return '';
+      const t = s.replace(/[/\\:*?"<>|]/g, '').trim().slice(0, 200);
+      return t || '';
+    }
+    function downloadFilename(slotIndex) {
+      const slot = slots[slotIndex];
+      const custom = slot && sanitizeFilename(slot.title);
+      return custom ? custom + (custom.toLowerCase().endsWith('.mp4') ? '' : '.mp4') : `clip-${slotIndex + 1}.mp4`;
     }
 
     function renderProgress() {
@@ -301,7 +313,7 @@
           if (!p || !p.blobUrl) return;
           const a = document.createElement('a');
           a.href = p.blobUrl;
-          a.download = `clip-${i + 1}.mp4`;
+          a.download = downloadFilename(i);
           a.click();
           setTimeout(() => URL.revokeObjectURL(p.blobUrl), 1000);
         });
@@ -392,7 +404,7 @@
     }
 
     addSlotBtn.addEventListener('click', () => {
-      slots.push({ url: '', start: '', end: '' });
+      slots.push({ url: '', start: '', end: '', title: '' });
       ensureProgressLength();
       renderSlots();
     });
